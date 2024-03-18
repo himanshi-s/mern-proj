@@ -1,19 +1,33 @@
+const User = require("../models/user-model");
 
 
-const Home = (req,res)=>{
+const Home = async (req,res)=>{
     try {
-        res.status(200).send(`this is home page`);
+        const allUsers = await User.find({});
+        // console.log(allUsers);
+        res.status(200).send({allUsers});
     } catch (error) {
         console.log(error);
     }
 }
 
-const Register = (req,res)=>{
-    try {console.log(req.body);
-        res.status(200).send({message: req.body});
+const Register = async (req,res)=>{
+
+    try {
+        const isExist = await User.findOne({email: req.body.email});
+        console.log(isExist);
+   if(isExist){
+    return res.status(201).send({msg: 'user already present', isExist})
+   }
+
+   const newUser = await User.create({username:req.body.username,phone:req.body.phone,email:req.body.email,password:req.body.password})
+   return res.status(200).send({msg:'user created.',newUser})
+        
     } catch (error) {
-        console.log(error);
+        res.status(400).send(`error occured ${error}`)
     }
+
+   
 }
 
 

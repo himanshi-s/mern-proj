@@ -4,8 +4,8 @@ const User = require("../models/user-model");
 const Home = async (req,res)=>{
     try {
         const allUsers = await User.find({});
-        // console.log(allUsers);
-        res.status(200).send({allUsers});
+        console.log(allUsers);
+        res.status(200).send({count: allUsers.length,data: allUsers});
     } catch (error) {
         console.log(error);
     }

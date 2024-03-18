@@ -21,7 +21,8 @@ const Register = async (req,res)=>{
    }
 
    const newUser = await User.create({username:req.body.username,phone:req.body.phone,email:req.body.email,password:req.body.password})
-   return res.status(200).send({msg:'user created.',newUser})
+
+    res.status(200).send({msg:'user created.', token: await newUser.generateToken(),userid: newUser._id.toString()})
         
     } catch (error) {
         res.status(400).send(`error occured ${error}`)
@@ -30,5 +31,24 @@ const Register = async (req,res)=>{
    
 }
 
+const Login = async(req,res) => {
+    try {
+        const {email,password} =req.body;
+        const isExist = await User.findOne({email});
+        if(!isExist){
+           return res.status(400).send(`please register first.`)
+        }
+        //check if credentials are valid.
+        const validUser = await isExist.decryptPassword(password);
+        if(!validUser){
+            return res.status(400).send(`invalid login email or password..`)
+        }
 
-module.exports = {Home,Register};
+        return res.status(201).send({msg:'login successful', token: await isExist.generateToken(),userid: isExist._id.toString()});
+    } catch (error) {
+        res.status(400).send(`error occured ${error}`)
+    }
+}
+
+
+module.exports = {Home,Register,Login};

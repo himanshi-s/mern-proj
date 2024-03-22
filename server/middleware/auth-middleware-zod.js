@@ -7,8 +7,15 @@ const validate = (userSchema) => async (req,res,next) =>{
         req.body = user;
         next();
         
-    } catch (error) {
-        res.status(400).send({msg:error});
+    } catch (err) {
+        const msg = err.errors[0].message;
+        // res.status(400).send({msg});
+        const erro = {
+            message:msg,
+            status: 422
+        }
+        console.log(`hgsfjasfKJFLKFJ${erro}`);
+        next(erro);
     }
 }
 

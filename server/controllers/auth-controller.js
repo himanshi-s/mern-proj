@@ -25,7 +25,7 @@ const Register = async (req,res)=>{
     res.status(200).send({msg:'user created.', token: await newUser.generateToken(),userid: newUser._id.toString()})
         
     } catch (error) {
-        res.status(400).send(`error occured ${error}`)
+        res.status(400).send(`registration error occured ${error}`)
     }
 
    

@@ -1,5 +1,3 @@
-// const userSchema = require("../validators/auth-validator")
-
 const validate = (userSchema) => async (req,res,next) =>{
     try {
         const user = await userSchema.parseAsync(req.body);
@@ -14,7 +12,7 @@ const validate = (userSchema) => async (req,res,next) =>{
             message:msg,
             status: 422
         }
-        console.log(`hgsfjasfKJFLKFJ${erro}`);
+        console.log(`${erro}`);
         next(erro);
     }
 }

@@ -31,8 +31,8 @@ a:hover {
 body {
   /* background-color: #535bf2; */
   margin: 0;
-  display: flex;
-  place-items: center;
+  /* display: flex;
+  place-items: center; */
   min-width: 320px;
   min-height: 100vh;
 }
@@ -72,6 +72,16 @@ button:focus-visible {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
+}
+.section-registration,.section-login{
+  width: 100%;
+  padding: 2rem;
+}
+.register-form,.login-form{
+  /* padding: 2rem; */
+  /* padding:rem; */
+  width: 50%;
+  margin: 0 auto;
 }
 
 @media (prefers-color-scheme: light) {

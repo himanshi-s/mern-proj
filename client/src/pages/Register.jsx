@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import  axios from "axios";
+import {useNavigate} from 'react-router-dom'
 
 const Register = () => {
+  const navigate = useNavigate();
 
   const [user,setUser] = useState({
     username:'Johndoe',
@@ -17,6 +20,18 @@ const Register = () => {
     const val = e.target.value;
     setUser({...user,[name]:val})
 
+  }
+  //handling submit
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
+    axios.post('http://localhost:5555/api/auth/register',user)
+    .then((res)=>{
+      console.log(res);
+      navigate("/")
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
   }
 
   return (<>
@@ -46,7 +61,7 @@ const Register = () => {
           value={user.phone} onChange={handleInput}
           />
           <br />
-          <button type="submit" >submit</button>
+          <button type="submit" onClick={handleSubmit}>submit</button>
         </form>
       </div>
     </div>

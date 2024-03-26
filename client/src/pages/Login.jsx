@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import axios  from "axios";
+import {useNavigate} from 'react-router-dom'
 
 const Login = () => {
+  const navigate = useNavigate();
     const [user,setUser] = useState({
       email:'johndoe@yahoo.com',
       password:'1234567890',
@@ -12,7 +15,17 @@ const Login = () => {
       const name = e.target.name;
       const val = e.target.value;
       setUser({...user,[name]:val})
-  
+    }
+    const handleSubmit = async (e) =>{
+      e.preventDefault();
+      axios.post('http://localhost:5555/api/auth/login',user)
+      .then((res)=>{
+        console.log(res);
+        navigate("/")
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
     }
     return (<>
     <main>
@@ -31,7 +44,7 @@ const Login = () => {
             value={user.password} onChange={handleInput}
             />
             <br />
-            <button type="submit">Login</button>
+            <button type="submit"onClick={handleSubmit}>Login</button>
           </form>
         </div>
       </div>

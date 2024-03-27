@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import  axios from "axios";
 import {useNavigate} from 'react-router-dom'
+import {useAuthContext} from '../auth-context'
 
 const Register = () => {
   const navigate = useNavigate();
@@ -11,6 +12,8 @@ const Register = () => {
     password:'1234567890',
     phone:1234567899
   })
+
+  const {StoreTokenInLS} = useAuthContext();
 
   //handling input
   const handleInput = (e) => {
@@ -26,7 +29,8 @@ const Register = () => {
     e.preventDefault();
     axios.post('http://localhost:5555/api/auth/register',user)
     .then((res)=>{
-      console.log(res);
+      StoreTokenInLS(res.data.token)
+      console.log(res.data);
       navigate("/")
     })
     .catch((err)=>{

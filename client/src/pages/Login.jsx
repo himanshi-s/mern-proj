@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import axios  from "axios";
 import {useNavigate} from 'react-router-dom'
+import { useAuthContext } from '../auth-context';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,17 +17,25 @@ const Login = () => {
       const val = e.target.value;
       setUser({...user,[name]:val})
     }
+    const {StoreTokenInLS} = useAuthContext();
     const handleSubmit = async (e) =>{
       e.preventDefault();
       axios.post('http://localhost:5555/api/auth/login',user)
       .then((res)=>{
         console.log(res);
+        StoreTokenInLS(res.data.token);
         navigate("/")
       })
       .catch((err)=>{
         console.log(err);
       })
     }
+    const {isLoggedIn} = useAuthContext();
+   console.log(isLoggedIn,"isloggedin");
+   useEffect(() => {
+    return console.log('useeffect run');
+   }, [isLoggedIn])
+   
     return (<>
     <main>
       <div className="section-login">
